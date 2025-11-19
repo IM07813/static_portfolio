@@ -13,3 +13,8 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# files
+
+videos/originals_add_to_gitignore/
+
