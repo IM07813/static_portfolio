@@ -1,6 +1,7 @@
 # IDE
 .vscode/
 .idea/
+.qodo/
 
 # OS
 .DS_Store
