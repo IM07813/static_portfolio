@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #fff;
+        }
+        h1 {
+            color: #00ffff;
+        }
+        .test-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+        .success {
+            background: #00ff00;
+            color: #000;
+        }
+        .error {
+            background: #ff0000;
+            color: #fff;
+        }
+        .test-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+        button {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Portfolio Test Suite</h1>
+    
+    <div class="test-section">
+        <h2>File Structure Tests</h2>
+        <div id="file-tests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Asset Tests</h2>
+        <div id="asset-tests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Video Tests</h2>
+        <div id="video-tests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Quick Actions</h2>
+        <button onclick="window.location.href='index.html'">🏠 Open Portfolio</button>
+        <button onclick="runAllTests()">🔄 Run All Tests</button>
+        <button onclick="window.location.href='README.md'">📖 View README</button>
+    </div>
+
+    <script>
+        const files = [
+            'index.html',
+            'css/style.css',
+            'js/main.js',
+            'README.md',
+            'DEPLOYMENT.md'
+        ];
+
+        const assets = [
+            'assets/profile.png',
+            'assets/my_resume.pdf',
+            'assets/Handmade-removebg-preview.png',
+            'assets/favicon-32x32.png',
+            'assets/favicon-16x16.png',
+            'assets/apple-touch-icon.png'
+        ];
+
+        const videos = [
+            'videos/snapgorithm_compressed.mp4',
+            'videos/farm_stack_agentic_CRM.mp4',
+            'videos/realestate_pro.mp4',
+            'videos/contruction_site_portfolio.mp4'
+        ];
+
+        async function testFile(file) {
+            try {
+                const response = await fetch(file, { method: 'HEAD' });
+                return response.ok;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        async function runFileTests() {
+            const container = document.getElementById('file-tests');
+            container.innerHTML = '<p>Testing files...</p>';
+            
+            let html = '';
+            for (const file of files) {
+                const exists = await testFile(file);
+                const status = exists ? 
+                    '<span class="status success">✓ Found</span>' : 
+                    '<span class="status error">✗ Missing</span>';
+                html += `<div class="test-item">${file} ${status}</div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        async function runAssetTests() {
+            const container = document.getElementById('asset-tests');
+            container.innerHTML = '<p>Testing assets...</p>';
+            
+            let html = '';
+            for (const asset of assets) {
+                const exists = await testFile(asset);
+                const status = exists ? 
+                    '<span class="status success">✓ Found</span>' : 
+                    '<span class="status error">✗ Missing</span>';
+                html += `<div class="test-item">${asset} ${status}</div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        async function runVideoTests() {
+            const container = document.getElementById('video-tests');
+            container.innerHTML = '<p>Testing videos...</p>';
+            
+            let html = '';
+            for (const video of videos) {
+                const exists = await testFile(video);
+                const status = exists ? 
+                    '<span class="status success">✓ Found</span>' : 
+                    '<span class="status error">✗ Missing</span>';
+                html += `<div class="test-item">${video} ${status}</div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        async function runAllTests() {
+            await runFileTests();
+            await runAssetTests();
+            await runVideoTests();
+        }
+
+        // Run tests on load
+        window.addEventListener('load', runAllTests);
+    </script>
+</body>
+</html>

@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waqar-ML Engineer</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+
+    <!-- please remove the cdn and download them directory in your root directory as the below can go away anytime-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-container">
+            <div class="box">
+                <div class="cube"></div>
+            </div>
+        </div>
+        <div class="loading-text" style="margin-top: 80px">
+            Hang in there...<span class="loading-dots"></span>
+        </div>
+    </div>
+
+    <div id="threejs-container"></div>
+
+    <!-- Logo -->
+    <div class="logo">
+        <img src="assets/Handmade-removebg-preview.png" alt="Logo" class="logo-image">
+    </div>
+
+    <!-- Floating Social Media Icons -->
+    <div class="social-icons">
+        <a href="https://github.com/IM07813" target="_blank" rel="noopener noreferrer" class="social-icon"
+            title="GitHub">
+            <i class="fab fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/waqar-ahmed-a31310258" target="_blank" rel="noopener noreferrer"
+            class="social-icon" title="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="http://stackoverflow.com/users/20765829/waqar" target="_blank" rel="noopener noreferrer"
+            class="social-icon" title="Stack Overflow">
+            <i class="fab fa-stack-overflow"></i>
+        </a>
+        <a href="http://www.upwork.com/freelancers/~01f32343e8f9552c54" target="_blank" rel="noopener noreferrer"
+            class="social-icon" title="Upwork">
+            <span style="font-weight: bold; font-size: 18px;">U</span>
+        </a>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="nav-bar desktop-nav">
+        <a href="#home" class="nav-item active">Home</a>
+        <a href="#skills" class="nav-item">Skills</a>
+        <a href="#projects" class="nav-item">Projects</a>
+        <a href="#certifications" class="nav-item">Certifications</a>
+        <a href="#contact" class="nav-item">Contact</a>
+    </nav>
+
+    <!-- Mobile Hamburger Button -->
+    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </button>
+
+    <!-- Mobile Navigation Menu -->
+    <nav class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-content">
+            <a href="#home" class="mobile-nav-item active">Home</a>
+            <a href="#skills" class="mobile-nav-item">Skills</a>
+            <a href="#projects" class="mobile-nav-item">Projects</a>
+            <a href="#certifications" class="mobile-nav-item">Certifications</a>
+            <a href="#contact" class="mobile-nav-item">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section id="home" class="section">
+            <div class="hero liquid-card">
+                <div class="hero-content">
+                    <h1>Waqar</h1>
+                    <div class="role">
+                        Machine learning Engineer
+                    </div>
+                    <div class="subtitle">
+                        Building Intelligent Systems • Crafting Digital
+                        Experiences
+                    </div>
+                    <a href="assets/my_resume.pdf" target="_blank" rel="noopener noreferrer"
+                        class="cta-button">
+                        Download Resume</a>
+                </div>
+                <div class="image-container">
+                    <img src="assets/profile.png" alt="Waqar Ahmed" class="profile-image" />
+                </div>
+            </div>
+            <div class="scroll-indicator">SCROLL</div>
+        </section>
+
+        <section id="skills" class="section">
+            <div class="liquid-card">
+                <h2 class="section-title">Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <h3>Machine Learning Algorithms & Libraries</h3>
+                        <p>
+                            TensorFlow, PyTorch, JAX, Scikit-learn, Pandas, Numpy
+                        </p>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Natural Language Processing (NLP)</h3>
+                        <p>
+                            Fine-tuning open source models such as google flan t5 series on different datasets and then
+                            deploying them to production.
+                        </p>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Computer Vision</h3>
+                        <p>
+                            I have worked with opencv, fine tuning vgg16 for real time detection, working with both
+                            convolutional neural network and vision transformers.
+                        </p>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Full Stack Web Development</h3>
+                        <p>
+                            FARM stack, Django, Next.js, React, Flask, FastAPI, building scalable web applications and
+                            APIs mostly for deploying LLMs or other ml models in production
+                        </p>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Cloud Computing</h3>
+                        <p>
+                            I have used Azure, AWS, railway, koyeb services for deploying ML models, serverless
+                            computing, and cloud infrastructure.
+                        </p>
+                    </div>
+                    <div class="skill-card">
+                        <h3>LLM APIs</h3>
+                        <p>
+                            Integration with OpenAI, Gemini, Claude, and Hugging Face APIs for advanced AI applications.
+                        </p>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Data Visualization & Databases</h3>
+                        <p>
+                            Plotly, Matplotlib for data visualization; SQL and NoSQL databases like PostgreSQL and
+                            MongoDB.
+                        </p>
+                    </div>
+                </div>
+
+
+                <!-- Tools & Technologies -->
+                <div class="tools-section" style="margin-top: 60px">
+                    <h3 style="
+                                color: var(--primary-glow);
+                                margin-bottom: 30px;
+                                font-size: 1.5rem;
+                            ">
+                        Tools & Technologies
+                    </h3>
+                    <div class="tools-grid">
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                                    alt="Python" />
+                            </div>
+                            <div class="tool-name">Python</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg"
+                                    alt="PyTorch" />
+                            </div>
+                            <div class="tool-name">PyTorch</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg"
+                                    alt="TensorFlow" />
+                            </div>
+                            <div class="tool-name">TensorFlow</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg"
+                                    alt="Azure" />
+                            </div>
+                            <div class="tool-name">Azure</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
+                                    alt="AWS" />
+                            </div>
+                            <div class="tool-name">AWS</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://raw.githubusercontent.com/google/jax/main/images/jax_logo_250px.png"
+                                    alt="JAX" />
+                            </div>
+                            <div class="tool-name">JAX</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                                    alt="React" />
+                            </div>
+                            <div class="tool-name">React</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
+                                    alt="Next.js" />
+                            </div>
+                            <div class="tool-name">Next.js</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg"
+                                    alt="Django" />
+                            </div>
+                            <div class="tool-name">Django</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                                    alt="JavaScript" />
+                            </div>
+                            <div class="tool-name">JavaScript</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg"
+                                    alt="C++" />
+                            </div>
+                            <div class="tool-name">C++</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
+                                    alt="Docker" />
+                            </div>
+                            <div class="tool-name">Docker</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg"
+                                    alt="Kubernetes" />
+                            </div>
+                            <div class="tool-name">Kubernetes</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg"
+                                    alt="Pandas" />
+                            </div>
+                            <div class="tool-name">Pandas</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/plotly/plotly-original.svg"
+                                    alt="Plotly" />
+                            </div>
+                            <div class="tool-name">Plotly</div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+                                    alt="Git" />
+                            </div>
+                            <div class="tool-name">Git</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <div class="liquid-card">
+                <h2 class="section-title">Featured Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <h3>LinkedIn Content Generator Web App</h3>
+                        <p>
+                            A monolithic progressive web app in Django with PostgreSQL as database and a complete
+                            agentic AI content generator using LangGraph, scheduling and notifying users before posting
+                            via cronjobs and resend API, with social authentication options like Google sign in, cloudinary api for users media,
+                            and security with cloudflare.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://snapgorithm.com" target="_blank" rel="noopener noreferrer"
+                                class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                Visit Live App
+                            </a>
+                            <div class="video-preview-btn" data-video="snapgorithm">
+                                <i class="fas fa-play"></i>
+                                <span>Preview</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h3>Agentic CRM for Real Estate Company</h3>
+                        <p>
+                            Developed with FARM stack, role-based access control, Gemini API, LangGraph, Cloudinary for
+                            images, MongoAtlas DB, WhatsApp and email notifications.
+                        </p>
+                        <div class="video-preview-btn" data-video="crm">
+                            <i class="fas fa-play"></i>
+                            <span>Preview</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h3>Real Estate Site</h3>
+                        <p>
+                            Created using Next.js and MongoDB, property listings and blogs, user submissions with admin
+                            approval, CRUD operations for properties and blogs, separate admin panel.
+                        </p>
+                        <div class="video-preview-btn" data-video="realestate">
+                            <i class="fas fa-play"></i>
+                            <span>Preview</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h3>Construction Site Portfolio</h3>
+                        <p>
+                            A dynamic and modern Next.js built website for construction with WhatsApp API connected and
+                            MongoDB database.
+                        </p>
+                        <div class="video-preview-btn" data-video="construction">
+                            <i class="fas fa-play"></i>
+                            <span>Preview</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h3>Detecting Ads on Live TV Using Deep Learning</h3>
+                        <p>
+                            Used deep learning architectures to detect commercial starts and categorize ads. Detailed
+                            pipeline available, source code under NDA.
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h3>Predicting Odds of Sports Games Using Unsupervised Learning</h3>
+                        <p>
+                            Used DBSCAN to find relative average predictions compared to bookmakers, detects errors if
+                            variance exceeds threshold.
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h3>MCTS-UCB-Transformer-Ensemble</h3>
+                        <p>
+                            Chess engine using encoder-only transformer, UCB, and MCTS in ensemble for real-time play
+                            via terminal.
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h3>Sentiment Analysis with BERT</h3>
+                        <p>Fine-tuned Google BERT for analyzing sentiment in user comments and responses.</p>
+                    </div>
+                    <div class="project-card">
+                        <h3>Essay Evaluation</h3>
+                        <p>Fine-tuned BERT with grammar and spelling checks to evaluate essays with IELTS band scores.
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h3>Chat-bot for Physics Questions</h3>
+                        <p>Fine-tuned Llama model on custom dataset to answer physics-related questions accurately.</p>
+                    </div>
+                    <div class="project-card">
+                        <h3>Transformer Models for Generative AI</h3>
+                        <p>Decoder-only architecture for predicting and generating language sequences.</p>
+                    </div>
+                    <div class="project-card">
+                        <h3>ViT-VQ-GAN for Image Generation</h3>
+                        <p>Implemented Vision Transformer with VQ-GAN for image generation, compared with StyleGAN and
+                            diffusion models.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications" class="section">
+            <div class="liquid-card">
+                <h2 class="section-title">Certifications & Credentials</h2>
+                <div class="certifications-grid">
+                    <div class="certification-card">
+                        <div class="certification-icon"></div>
+                        <div class="certification-title">
+                            Microsoft Azure Data Scientist Associate
+                        </div>
+                        <div class="certification-issuer">Microsoft</div>
+                        <div class="certification-date">Jan 2025</div>
+                        <div class="certification-verify">
+                            <a href="https://learn.microsoft.com/en-us/users/waqarahmed-6535/credentials/1f122b352ae0c184?ref=https%3A%2F%2Fwww.linkedin.com%2F"
+                                target="_blank" rel="noopener noreferrer" class="verify-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                Verify Credentials
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <div class="liquid-card contact-info">
+                <h2 class="section-title">Let's Build Together</h2>
+                <p class="contact-subtitle">Ready to collaborate on your next project? Reach out through any of these channels:</p>
+                
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <a href="mailto:waqar078132@proton.me" class="contact-link">waqar078132@proton.me</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>WhatsApp</h3>
+                            <a href="https://wa.me/923155493515" target="_blank" rel="noopener noreferrer" class="contact-link">+92 315 5493515</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Discord</h3>
+                            <span class="contact-link">waqar07813</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal">
+        <div class="video-modal-content">
+            <div class="video-modal-header">
+                <div class="video-controls">
+                    <button id="minimizeBtn" class="control-btn" title="Minimize">
+                        <i class="fas fa-window-minimize"></i>
+                    </button>
+                    <button id="closeBtn" class="control-btn close-btn" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="video-container">
+                <video id="modalVideo" controls>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+
+    <!-- Video Modal JavaScript -->
+    <script>
+        // Video URLs
+        const videoUrls = {
+            'snapgorithm': 'videos/snapgorithm_compressed.mp4',
+            'crm': 'videos/farm_stack_agentic_CRM.mp4',
+            'realestate': 'videos/realestate_pro.mp4',
+            'construction': 'videos/contruction_site_portfolio.mp4'
+        };
+
+        // Video Modal Functionality
+        function openVideoModal(videoSrc) {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+
+            video.src = videoSrc;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Auto play video
+            video.play().catch(e => console.log('Auto-play prevented:', e));
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+
+            video.pause();
+            video.src = '';
+            modal.classList.remove('active', 'minimized');
+            document.body.style.overflow = '';
+        }
+
+        function minimizeVideo() {
+            const modal = document.getElementById('videoModal');
+            modal.classList.toggle('minimized');
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function () {
+            const closeBtn = document.getElementById('closeBtn');
+            const minimizeBtn = document.getElementById('minimizeBtn');
+            const modal = document.getElementById('videoModal');
+
+            closeBtn.addEventListener('click', closeVideoModal);
+            minimizeBtn.addEventListener('click', minimizeVideo);
+
+            // Add click listeners to video preview buttons
+            document.querySelectorAll('.video-preview-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const videoKey = this.getAttribute('data-video');
+                    const videoSrc = videoUrls[videoKey];
+                    if (videoSrc) {
+                        openVideoModal(videoSrc);
+                    }
+                });
+            });
+
+            // Close modal when clicking outside video
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) {
+                    closeVideoModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeVideoModal();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Mobile Menu Toggle Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileNav = document.getElementById('mobile-nav');
+            const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            const body = document.body;
+
+            // Toggle mobile menu
+            mobileMenuToggle.addEventListener('click', function () {
+                mobileNav.classList.toggle('active');
+                mobileMenuToggle.classList.toggle('active');
+                body.classList.toggle('menu-open');
+            });
+
+            // Close menu when clicking on nav items
+            mobileNavItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    mobileNav.classList.remove('active');
+                    mobileMenuToggle.classList.remove('active');
+                    body.classList.remove('menu-open');
+
+                    // Update active state
+                    document.querySelectorAll('.nav-item, .mobile-nav-item').forEach(navItem => {
+                        navItem.classList.remove('active');
+                    });
+                    this.classList.add('active');
+
+                    // Also update desktop nav
+                    const href = this.getAttribute('href');
+                    const desktopNavItem = document.querySelector(`.nav-item[href="${href}"]`);
+                    if (desktopNavItem) {
+                        desktopNavItem.classList.add('active');
+                    }
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function (e) {
+                if (!mobileNav.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                    mobileNav.classList.remove('active');
+                    mobileMenuToggle.classList.remove('active');
+                    body.classList.remove('menu-open');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) {
+                    mobileNav.classList.remove('active');
+                    mobileMenuToggle.classList.remove('active');
+                    body.classList.remove('menu-open');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
