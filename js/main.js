@@ -67,8 +67,9 @@ function hideLoadingScreen() {
 
     // Start animations after loading screen is hidden
     setTimeout(() => {
-      animateProgressBars();
-    }, 1000);
+      initScrollAnimations();
+      initScrambleEffect();
+    }, 500);
   }
 }
 
@@ -83,16 +84,16 @@ function createStarTexture() {
   canvas.width = 32;
   canvas.height = 32;
   const ctx = canvas.getContext('2d');
-  
+
   // Create radial gradient for circular star
   const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
   gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
   gradient.addColorStop(0.2, 'rgba(255, 255, 255, 1)');
   gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-  
+
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, 32, 32);
-  
+
   const texture = new THREE.CanvasTexture(canvas);
   return texture;
 }
@@ -115,7 +116,8 @@ function init() {
   // --- Starfield ---
   const starGeometry = new THREE.BufferGeometry();
   const starVertices = [];
-  for (let i = 0; i < 20000; i++) {
+  const starCount = window.innerWidth < 768 ? 8000 : 15000; // Optimize for mobile
+  for (let i = 0; i < starCount; i++) {
     const x = (Math.random() - 0.5) * 2000;
     const y = (Math.random() - 0.5) * 2000;
     const z = (Math.random() - 0.5) * 2000;
@@ -265,6 +267,10 @@ function onMouseMove(event) {
 }
 
 function animate() {
+  if (document.hidden) {
+    setTimeout(() => requestAnimationFrame(animate), 500); // Check less frequently when hidden
+    return;
+  }
   requestAnimationFrame(animate);
 
   const time = Date.now() * 0.0001;
@@ -310,36 +316,103 @@ function onWindowResize() {
 
 window.addEventListener("resize", onWindowResize, false);
 
-// Progress bar animations
-function animateProgressBars() {
-  const progressBars = document.querySelectorAll(".skill-progress-fill");
+// Scroll Animations
+function initScrollAnimations() {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+  };
 
-  const progressObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const progressBar = entry.target;
-          const targetWidth = progressBar.style.width;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target); // Only animate once
+      }
+    });
+  }, observerOptions);
 
-          // Reset width to 0 and animate to target
-          progressBar.style.width = "0%";
-          progressBar.style.transition = "width 2s ease-in-out";
+  const animatedElements = document.querySelectorAll(".fade-in-section");
+  animatedElements.forEach((el) => observer.observe(el));
+}
 
-          setTimeout(() => {
-            progressBar.style.width = targetWidth;
-          }, 200);
+// Text Scramble Effect
+class TextScramble {
+  constructor(el) {
+    this.el = el;
+    this.chars = '!<>-_\\/[]{}—=+*^?#________';
+    this.update = this.update.bind(this);
+  }
 
-          // Unobserve after animation
-          progressObserver.unobserve(progressBar);
+  setText(newText) {
+    const oldText = this.el.innerText;
+    const length = Math.max(oldText.length, newText.length);
+    const promise = new Promise((resolve) => this.resolve = resolve);
+    this.queue = [];
+    for (let i = 0; i < length; i++) {
+      const from = oldText[i] || '';
+      const to = newText[i] || '';
+      const start = Math.floor(Math.random() * 40);
+      const end = start + Math.floor(Math.random() * 40);
+      this.queue.push({ from, to, start, end });
+    }
+    cancelAnimationFrame(this.frameRequest);
+    this.frame = 0;
+    this.update();
+    return promise;
+  }
+
+  update() {
+    let output = '';
+    let complete = 0;
+    for (let i = 0, n = this.queue.length; i < n; i++) {
+      let { from, to, start, end, char } = this.queue[i];
+      if (this.frame >= end) {
+        complete++;
+        output += to;
+      } else if (this.frame >= start) {
+        if (!char || Math.random() < 0.28) {
+          char = this.randomChar();
+          this.queue[i].char = char;
         }
-      });
-    },
-    { threshold: 0.5 },
-  );
+        output += `<span class="dud">${char}</span>`;
+      } else {
+        output += from;
+      }
+    }
+    this.el.innerHTML = output;
+    if (complete === this.queue.length) {
+      this.resolve();
+    } else {
+      this.frameRequest = requestAnimationFrame(this.update);
+      this.frame++;
+    }
+  }
 
-  progressBars.forEach((bar) => {
-    progressObserver.observe(bar);
-  });
+  randomChar() {
+    return this.chars[Math.floor(Math.random() * this.chars.length)];
+  }
+}
+
+function initScrambleEffect() {
+  const el = document.querySelector('.role');
+  if (!el) return;
+
+  const fx = new TextScramble(el);
+  const phrases = [
+    'Machine Learning Engineer',
+    'Full Stack Developer'
+  ];
+
+  let counter = 0;
+  const next = () => {
+    fx.setText(phrases[counter]).then(() => {
+      setTimeout(next, 2500);
+    });
+    counter = (counter + 1) % phrases.length;
+  };
+
+  next();
 }
 
 // Navigation and scrolling
@@ -359,7 +432,7 @@ const observer = new IntersectionObserver(
       }
     });
   },
-  { 
+  {
     threshold: 0.3,
     rootMargin: '-100px 0px -100px 0px'
   },
@@ -379,17 +452,16 @@ navLinks.forEach((anchor) => {
 // Cross-browser compatibility checks
 function checkBrowserCompatibility() {
   const features = {
-    localStorage: typeof Storage !== 'undefined',
     intersectionObserver: typeof IntersectionObserver !== 'undefined',
     requestAnimationFrame: typeof requestAnimationFrame !== 'undefined'
   };
 
   const unsupportedFeatures = Object.keys(features).filter(key => !features[key]);
-  
+
   if (unsupportedFeatures.length > 0) {
     console.warn('Some features may not work in this browser:', unsupportedFeatures);
   }
-  
+
   return features;
 }
 
@@ -397,7 +469,7 @@ function checkBrowserCompatibility() {
 document.addEventListener("DOMContentLoaded", function () {
   // Check browser compatibility first
   const browserFeatures = checkBrowserCompatibility();
-  
+
   // Initialize loading screen
   initializeLoading();
 
@@ -415,7 +487,7 @@ window.addEventListener("load", function () {
     if (isLoading) {
       hideLoadingScreen();
     }
-    
+
   }, 5000); // Maximum 5 seconds loading time
 });
 

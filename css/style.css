@@ -26,7 +26,8 @@ body {
             var(--background-end) 100%);
     color: var(--text-color);
     overflow-x: hidden;
-    line-height: 1.6;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -61,9 +62,12 @@ body {
     background: rgba(255, 255, 255, 0.03);
     padding: 12px 24px;
     border-radius: 50px;
-    backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: var(--shadow-glow);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        inset 0 0 20px rgba(255, 255, 255, 0.02);
 }
 
 /* Mobile Menu Toggle Button */
@@ -195,14 +199,15 @@ body.menu-open {
 }
 
 .liquid-card {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.015);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.04);
     padding: 60px 40px;
     border-radius: 30px;
     box-shadow:
-        0 0 40px rgba(0, 255, 255, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        0 20px 50px rgba(0, 0, 0, 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.02);
     transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     max-width: 1200px;
     width: 100%;
@@ -324,8 +329,30 @@ body.menu-open {
 }
 
 .cta-button:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(255, 0, 255, 0.4);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow:
+        0 20px 40px rgba(255, 0, 255, 0.4),
+        0 0 20px rgba(0, 255, 255, 0.4);
+    background: linear-gradient(45deg,
+            var(--primary-glow),
+            var(--secondary-glow),
+            var(--accent-glow));
+    background-size: 200% 200%;
+    animation: gradient-shift 2s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .section-title {
@@ -401,11 +428,13 @@ body.menu-open {
 
 .skill-card:hover,
 .project-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-8px) scale(1.02);
     box-shadow:
         0 25px 50px rgba(0, 0, 0, 0.3),
-        var(--shadow-glow);
+        0 0 30px rgba(0, 255, 255, 0.2),
+        inset 0 0 20px rgba(0, 255, 255, 0.05);
     border-color: var(--primary-glow);
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .skill-card h3,
@@ -423,40 +452,7 @@ body.menu-open {
     font-size: 1rem;
 }
 
-.contact-form {
-    max-width: 600px;
-    width: 100%;
-}
 
-.form-group {
-    margin-bottom: 30px;
-}
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 15px;
-    color: var(--text-color);
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    font-family: "Inter", sans-serif;
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: var(--text-muted);
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary-glow);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-}
 
 .scroll-indicator {
     position: absolute;
@@ -730,7 +726,7 @@ body.menu-open {
         gap: 10px;
         align-items: stretch;
     }
-    
+
     .project-link,
     .video-preview-btn {
         width: 100%;
@@ -738,7 +734,7 @@ body.menu-open {
         padding: 14px 20px;
         font-size: 0.9rem;
     }
-    
+
     .project-link i,
     .video-preview-btn i {
         font-size: 1rem;
@@ -749,14 +745,14 @@ body.menu-open {
     .project-links {
         gap: 8px;
     }
-    
+
     .project-link,
     .video-preview-btn {
         padding: 12px 18px;
         font-size: 0.85rem;
         border-radius: 20px;
     }
-    
+
     .project-link i,
     .video-preview-btn i {
         font-size: 0.9rem;
@@ -799,6 +795,48 @@ body.menu-open {
 
 .tool-item:hover::before {
     transform: scaleX(1);
+}
+
+/* Scroll Animations */
+.fade-in-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: opacity, transform;
+}
+
+.fade-in-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered delays for children if needed */
+.fade-in-section.delay-100 {
+    transition-delay: 0.1s;
+}
+
+.fade-in-section.delay-200 {
+    transition-delay: 0.2s;
+}
+
+.fade-in-section.delay-300 {
+    transition-delay: 0.3s;
+}
+
+/* Scramble Effect */
+.role {
+    min-height: 1.5em;
+    font-family: "Orbitron", sans-serif;
+    /* Tech-look for the role */
+    color: var(--primary-glow);
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.dud {
+    color: #39ff14;
+    /* Predator Neon Green */
+    opacity: 1;
+    text-shadow: 0 0 10px #39ff14;
 }
 
 .tool-item:hover {
@@ -1379,6 +1417,7 @@ body.menu-open {
         0% {
             transform: translateX(0);
         }
+
         100% {
             transform: translateX(-100px);
         }
@@ -1412,6 +1451,7 @@ body.menu-open {
         0% {
             transform: translateX(0);
         }
+
         100% {
             transform: translateX(-50px);
         }
@@ -1539,7 +1579,8 @@ body.menu-open {
     position: relative;
     width: 100%;
     height: 0;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 56.25%;
+    /* 16:9 aspect ratio */
 }
 
 .video-modal.minimized .video-container {
@@ -1586,7 +1627,8 @@ body.menu-open {
     }
 
     .video-container {
-        padding-bottom: 56.25%; /* Maintain 16:9 aspect ratio */
+        padding-bottom: 56.25%;
+        /* Maintain 16:9 aspect ratio */
     }
 
     .video-modal.minimized .video-container {
@@ -1788,6 +1830,7 @@ body.menu-open {
 
 /* Touch-friendly improvements */
 @media (hover: none) and (pointer: coarse) {
+
     .nav-item,
     .social-icon,
     .cta-button,
@@ -1868,10 +1911,12 @@ img {
         line-height: 2rem;
         margin-right: 0.5rem;
     }
+
     .social-icons img {
         width: 20px;
         height: 20px;
     }
+
     .cta-button {
         font-size: 0.9rem;
         padding: 12px 24px;
