@@ -11,9 +11,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 
-    <!-- please remove the cdn and download them directory in your root directory as the below can go away anytime-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Local Assets -->
+    <script src="assets/vendor/js/three.min.js"></script>
+    <link rel="stylesheet" href="assets/vendor/css/all.min.css" />
     <link rel="stylesheet" href="css/style.css" />
 </head>
 
@@ -25,7 +25,7 @@
                 <div class="cube"></div>
             </div>
         </div>
-        <div class="loading-text" style="margin-top: 80px">
+        <div class="loading-text">
             Hang in there...<span class="loading-dots"></span>
         </div>
     </div>
@@ -53,8 +53,7 @@
         </a>
         <a href="http://www.upwork.com/freelancers/~01f32343e8f9552c54" target="_blank" rel="noopener noreferrer"
             class="social-icon" title="Upwork">
-            <img src="https://cdn.cdnlogo.com/logos/u/34/upwork.svg" alt="Upwork"
-                style="width: 20px; height: 20px; filter: brightness(0) invert(1);">
+            <img src="assets/icons/upwork.svg" alt="Upwork">
         </a>
     </div>
 
@@ -162,124 +161,104 @@
 
 
                 <!-- Tools & Technologies -->
-                <div class="tools-section" style="margin-top: 60px">
-                    <h3 style="
-                                color: var(--primary-glow);
-                                margin-bottom: 30px;
-                                font-size: 1.5rem;
-                            ">
+                <div class="tools-section">
+                    <h3>
                         Tools & Technologies
                     </h3>
                     <div class="tools-grid fade-in-section">
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
-                                    alt="Python" />
+                                <img src="assets/icons/python.svg" alt="Python" />
                             </div>
                             <div class="tool-name">Python</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg"
-                                    alt="PyTorch" />
+                                <img src="assets/icons/pytorch.svg" alt="PyTorch" />
                             </div>
                             <div class="tool-name">PyTorch</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg"
-                                    alt="TensorFlow" />
+                                <img src="assets/icons/tensorflow.svg" alt="TensorFlow" />
                             </div>
                             <div class="tool-name">TensorFlow</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg"
-                                    alt="Azure" />
+                                <img src="assets/icons/azure.svg" alt="Azure" />
                             </div>
                             <div class="tool-name">Azure</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
-                                    alt="AWS" />
+                                <img src="assets/icons/aws.svg" alt="AWS" />
                             </div>
                             <div class="tool-name">AWS</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://raw.githubusercontent.com/google/jax/main/images/jax_logo_250px.png"
-                                    alt="JAX" />
+                                <img src="assets/icons/jax.png" alt="JAX" />
                             </div>
                             <div class="tool-name">JAX</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-                                    alt="React" />
+                                <img src="assets/icons/react.svg" alt="React" />
                             </div>
                             <div class="tool-name">React</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
-                                    alt="Next.js" />
+                                <img src="assets/icons/nextjs.svg" alt="Next.js" />
                             </div>
                             <div class="tool-name">Next.js</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg"
-                                    alt="Django" />
+                                <img src="assets/icons/django.svg" alt="Django" />
                             </div>
                             <div class="tool-name">Django</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
-                                    alt="JavaScript" />
+                                <img src="assets/icons/javascript.svg" alt="JavaScript" />
                             </div>
                             <div class="tool-name">JavaScript</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg"
-                                    alt="C++" />
+                                <img src="assets/icons/cpp.svg" alt="C++" />
                             </div>
                             <div class="tool-name">C++</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
-                                    alt="Docker" />
+                                <img src="assets/icons/docker.svg" alt="Docker" />
                             </div>
                             <div class="tool-name">Docker</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg"
-                                    alt="Kubernetes" />
+                                <img src="assets/icons/kubernetes.svg" alt="Kubernetes" />
                             </div>
                             <div class="tool-name">Kubernetes</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg"
-                                    alt="Pandas" />
+                                <img src="assets/icons/pandas.svg" alt="Pandas" />
                             </div>
                             <div class="tool-name">Pandas</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/plotly/plotly-original.svg"
-                                    alt="Plotly" />
+                                <img src="assets/icons/plotly.svg" alt="Plotly" />
                             </div>
                             <div class="tool-name">Plotly</div>
                         </div>
                         <div class="tool-item">
                             <div class="tool-icon">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
-                                    alt="Git" />
+                                <img src="assets/icons/git.svg" alt="Git" />
                             </div>
                             <div class="tool-name">Git</div>
                         </div>
@@ -473,136 +452,7 @@
 
     <script src="js/main.js"></script>
 
-    <!-- Video Modal JavaScript -->
-    <script>
-        // Video URLs
-        const videoUrls = {
-            'snapgorithm': 'videos/snapgorithm_compressed.mp4',
-            'crm': 'videos/farm_stack_agentic_CRM.mp4',
-            'realestate': 'videos/realestate_pro.mp4',
-            'construction': 'videos/contruction_site_portfolio.mp4'
-        };
 
-        // Video Modal Functionality
-        function openVideoModal(videoSrc) {
-            const modal = document.getElementById('videoModal');
-            const video = document.getElementById('modalVideo');
-
-            video.src = videoSrc;
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-
-            // Auto play video
-            video.play().catch(e => console.log('Auto-play prevented:', e));
-        }
-
-        function closeVideoModal() {
-            const modal = document.getElementById('videoModal');
-            const video = document.getElementById('modalVideo');
-
-            video.pause();
-            video.src = '';
-            modal.classList.remove('active', 'minimized');
-            document.body.style.overflow = '';
-        }
-
-        function minimizeVideo() {
-            const modal = document.getElementById('videoModal');
-            modal.classList.toggle('minimized');
-        }
-
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', function () {
-            const closeBtn = document.getElementById('closeBtn');
-            const minimizeBtn = document.getElementById('minimizeBtn');
-            const modal = document.getElementById('videoModal');
-
-            closeBtn.addEventListener('click', closeVideoModal);
-            minimizeBtn.addEventListener('click', minimizeVideo);
-
-            // Add click listeners to video preview buttons
-            document.querySelectorAll('.video-preview-btn').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const videoKey = this.getAttribute('data-video');
-                    const videoSrc = videoUrls[videoKey];
-                    if (videoSrc) {
-                        openVideoModal(videoSrc);
-                    }
-                });
-            });
-
-            // Close modal when clicking outside video
-            modal.addEventListener('click', function (e) {
-                if (e.target === modal) {
-                    closeVideoModal();
-                }
-            });
-
-            // Close modal with Escape key
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && modal.classList.contains('active')) {
-                    closeVideoModal();
-                }
-            });
-        });
-    </script>
-
-    <script>
-        // Mobile Menu Toggle Functionality
-        document.addEventListener('DOMContentLoaded', function () {
-            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-            const mobileNav = document.getElementById('mobile-nav');
-            const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
-            const body = document.body;
-
-            // Toggle mobile menu
-            mobileMenuToggle.addEventListener('click', function () {
-                mobileNav.classList.toggle('active');
-                mobileMenuToggle.classList.toggle('active');
-                body.classList.toggle('menu-open');
-            });
-
-            // Close menu when clicking on nav items
-            mobileNavItems.forEach(item => {
-                item.addEventListener('click', function () {
-                    mobileNav.classList.remove('active');
-                    mobileMenuToggle.classList.remove('active');
-                    body.classList.remove('menu-open');
-
-                    // Update active state
-                    document.querySelectorAll('.nav-item, .mobile-nav-item').forEach(navItem => {
-                        navItem.classList.remove('active');
-                    });
-                    this.classList.add('active');
-
-                    // Also update desktop nav
-                    const href = this.getAttribute('href');
-                    const desktopNavItem = document.querySelector(`.nav-item[href="${href}"]`);
-                    if (desktopNavItem) {
-                        desktopNavItem.classList.add('active');
-                    }
-                });
-            });
-
-            // Close menu when clicking outside
-            document.addEventListener('click', function (e) {
-                if (!mobileNav.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-                    mobileNav.classList.remove('active');
-                    mobileMenuToggle.classList.remove('active');
-                    body.classList.remove('menu-open');
-                }
-            });
-
-            // Handle window resize
-            window.addEventListener('resize', function () {
-                if (window.innerWidth > 768) {
-                    mobileNav.classList.remove('active');
-                    mobileMenuToggle.classList.remove('active');
-                    body.classList.remove('menu-open');
-                }
-            });
-        });
-    </script>
 
 </body>
 

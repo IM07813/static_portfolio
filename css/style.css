@@ -1,4 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap");
+/* Google Fonts - Orbitron and Inter */
+/* Import locally hosted Google Fonts (Inter and Orbitron) */
+@import url("../assets/vendor/css/fonts.css");
 
 :root {
     --primary-glow: #00ffff;
@@ -855,18 +857,22 @@ body.menu-open {
         opacity: 0;
         transform: translateY(10px);
     }
+
     10% {
         opacity: 1;
         transform: translateY(0);
     }
+
     40% {
         opacity: 1;
         transform: translateY(0);
     }
+
     50% {
         opacity: 0;
         transform: translateY(-10px);
     }
+
     100% {
         opacity: 0;
         transform: translateY(-10px);
@@ -2296,4 +2302,25 @@ a.contact-link:hover {
     .contact-link {
         font-size: 0.9rem;
     }
+}
+
+/* Refactored Inline Styles */
+.loading-text {
+    margin-top: 80px;
+}
+
+.social-icon img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}
+
+.tools-section {
+    margin-top: 60px;
+}
+
+.tools-section h3 {
+    color: var(--primary-glow);
+    margin-bottom: 30px;
+    font-size: 1.5rem;
 }
