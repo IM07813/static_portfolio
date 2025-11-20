@@ -2,6 +2,12 @@
 /* Import locally hosted Google Fonts (Inter and Orbitron) */
 @import url("../assets/vendor/css/fonts.css");
 
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
 :root {
     --primary-glow: #00ffff;
     --secondary-glow: #ff00ff;
@@ -61,15 +67,47 @@ body {
     z-index: 100;
     display: flex;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.04);
     padding: 12px 24px;
     border-radius: 50px;
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.1),
-        inset 0 0 20px rgba(255, 255, 255, 0.02);
+        0 10px 30px rgba(0, 0, 0, 0.15),
+        inset 0 0 20px rgba(255, 255, 255, 0.03);
+}
+
+.nav-bar::before,
+.nav-bar::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 50px;
+    background: conic-gradient(from var(--angle), transparent 40%, var(--primary-glow) 50%, transparent 60%);
+    z-index: -1;
+    animation: rotate 4s linear infinite;
+    padding: 2px;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.nav-bar::after {
+    background: conic-gradient(from var(--angle), transparent 40%, var(--secondary-glow) 50%, transparent 60%);
+    animation: rotate 4s linear infinite reverse;
+}
+
+@keyframes rotate {
+    0% {
+        --angle: 0deg;
+    }
+
+    100% {
+        --angle: 360deg;
+    }
 }
 
 /* Mobile Menu Toggle Button */
@@ -78,8 +116,8 @@ body {
     top: 20px;
     right: 20px;
     z-index: 200;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 12px;
     width: 50px;
     height: 50px;
@@ -88,7 +126,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 4px;
-    backdrop-filter: blur(25px);
+    backdrop-filter: blur(40px);
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0;
@@ -201,15 +239,15 @@ body.menu-open {
 }
 
 .liquid-card {
-    background: rgba(255, 255, 255, 0.015);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(15, 15, 20, 0.35);
+    backdrop-filter: blur(60px) saturate(200%);
+    -webkit-backdrop-filter: blur(60px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     padding: 60px 40px;
     border-radius: 30px;
     box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.3),
-        inset 0 0 30px rgba(255, 255, 255, 0.02);
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        inset 0 0 30px rgba(255, 255, 255, 0.03);
     transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     max-width: 1200px;
     width: 100%;
@@ -281,7 +319,7 @@ body.menu-open {
 }
 
 .hero-content .subtitle {
-    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
     color: var(--text-muted);
     margin-bottom: 40px;
     font-weight: 400;
@@ -359,7 +397,7 @@ body.menu-open {
 
 .section-title {
     font-family: "Orbitron", sans-serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(2.8rem, 5.5vw, 4.5rem);
     text-align: center;
     margin-bottom: 80px;
     background: linear-gradient(45deg,
@@ -383,12 +421,13 @@ body.menu-open {
 
 .skill-card,
 .project-card {
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(15, 15, 20, 0.3);
     padding: 40px 30px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
     transition: all 0.4s ease;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
     position: relative;
     overflow: hidden;
 }
@@ -441,7 +480,7 @@ body.menu-open {
 
 .skill-card h3,
 .project-card h3 {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     margin-bottom: 16px;
     color: var(--text-color);
     font-weight: 600;
@@ -450,8 +489,8 @@ body.menu-open {
 .skill-card p,
 .project-card p {
     color: var(--text-muted);
-    line-height: 1.7;
-    font-size: 1rem;
+    line-height: 1.8;
+    font-size: 1.125rem;
 }
 
 
@@ -593,12 +632,13 @@ body.menu-open {
 }
 
 .certification-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(15, 15, 20, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 15px;
     padding: 25px 20px;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
     position: relative;
     overflow: hidden;
 }
@@ -634,20 +674,20 @@ body.menu-open {
 }
 
 .certification-title {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-weight: 600;
     color: var(--text-color);
     margin-bottom: 8px;
 }
 
 .certification-issuer {
-    font-size: 0.9rem;
+    font-size: 1.05rem;
     color: var(--text-muted);
     margin-bottom: 5px;
 }
 
 .certification-date {
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
 }
 
@@ -770,13 +810,14 @@ body.menu-open {
 }
 
 .tool-item {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(15, 15, 20, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
     padding: 20px 15px;
     text-align: center;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
     position: relative;
     overflow: hidden;
 }
@@ -909,7 +950,7 @@ body.menu-open {
 }
 
 .tool-name {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--text-color);
     font-weight: 500;
 }
@@ -1975,9 +2016,9 @@ img {
 .contact-subtitle {
     text-align: center;
     color: var(--text-muted);
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     margin-bottom: 50px;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .contact-methods {
@@ -1988,13 +2029,14 @@ img {
 }
 
 .contact-method {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
     padding: 40px 30px;
     text-align: center;
     transition: all 0.4s ease;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
     position: relative;
     overflow: hidden;
 }
@@ -2043,7 +2085,7 @@ img {
 }
 
 .contact-details h3 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     color: var(--text-color);
     margin-bottom: 12px;
     font-weight: 600;
@@ -2052,7 +2094,7 @@ img {
 .contact-link {
     color: var(--primary-glow);
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.075rem;
     font-weight: 500;
     transition: all 0.3s ease;
     display: inline-block;
@@ -2210,7 +2252,7 @@ img {
 }
 
 .contact-details h3 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     color: var(--text-color);
     margin-bottom: 12px;
     font-weight: 600;
@@ -2218,7 +2260,7 @@ img {
 
 .contact-link {
     color: var(--text-muted);
-    font-size: 1rem;
+    font-size: 1.075rem;
     text-decoration: none;
     transition: all 0.3s ease;
     display: inline-block;
@@ -2322,5 +2364,5 @@ a.contact-link:hover {
 .tools-section h3 {
     color: var(--primary-glow);
     margin-bottom: 30px;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
 }
