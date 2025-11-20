@@ -823,20 +823,54 @@ body.menu-open {
     transition-delay: 0.3s;
 }
 
-/* Scramble Effect */
+/* Elegant Fade Animation for Role */
 .role {
     min-height: 1.5em;
     font-family: "Orbitron", sans-serif;
-    /* Tech-look for the role */
     color: var(--primary-glow);
     text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    position: relative;
+    overflow: hidden;
 }
 
-.dud {
-    color: #39ff14;
-    /* Predator Neon Green */
-    opacity: 1;
-    text-shadow: 0 0 10px #39ff14;
+.role-text {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeInOut 6s ease-in-out infinite;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.role-text:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.role-text:nth-child(2) {
+    animation-delay: 3s;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    40% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
 }
 
 .tool-item:hover {

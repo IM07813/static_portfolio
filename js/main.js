@@ -68,7 +68,6 @@ function hideLoadingScreen() {
     // Start animations after loading screen is hidden
     setTimeout(() => {
       initScrollAnimations();
-      initScrambleEffect();
     }, 500);
   }
 }
@@ -173,77 +172,56 @@ function init() {
   blackHoleGroup.add(blackHole);
 
   // --- Accretion Disk ---
-  const diskGeometry = new THREE.RingGeometry(1.6, 4, 128);
+  const diskGeometry = new THREE.RingGeometry(1.6, 4, 256, 64);
   const diskMaterial = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0.0 },
-      innerColor: { value: new THREE.Color(0xffffee) }, // Hotter inner edge
-      outerColor: { value: new THREE.Color(0xff8800) }, // Cooler outer edge
+      diskColor: { value: new THREE.Color(0x00ffff) }, // Cyan glow color
     },
     vertexShader: `
             varying vec2 vUv;
+            varying vec3 vPosition;
             void main() {
                 vUv = uv;
+                vPosition = position;
                 gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
             }
         `,
     fragmentShader: `
             varying vec2 vUv;
+            varying vec3 vPosition;
             uniform float time;
-            uniform vec3 innerColor;
-            uniform vec3 outerColor;
-
-            // 2D simplex noise function
-            vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-            vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-            vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
-            float snoise(vec2 v) {
-                const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
-                vec2 i  = floor(v + dot(v, C.yy) );
-                vec2 x0 = v -   i + dot(i, C.xx);
-                vec2 i1;
-                i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-                vec4 x12 = x0.xyxy + C.xxzz;
-                x12.xy -= i1;
-                i = mod289(i);
-                vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
-                vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
-                m = m*m;
-                m = m*m;
-                vec3 x = 2.0 * fract(p * C.www) - 1.0;
-                vec3 h = abs(x) - 0.5;
-                vec3 ox = floor(x + 0.5);
-                vec3 a0 = x - ox;
-                m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
-                vec3 g;
-                g.x  = a0.x  * x0.x  + h.x  * x0.y;
-                g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-                return 130.0 * dot(m, g);
-            }
+            uniform vec3 diskColor;
 
             void main() {
-                float radius = distance(vUv, vec2(0.5));
+                vec2 center = vec2(0.5, 0.5);
+                float radius = distance(vUv, center);
+                
+                // Smooth radial gradient from inner to outer edge
+                float gradient = smoothstep(0.0, 0.5, radius);
+                
+                // Create smooth rotating brightness variation
                 float angle = atan(vUv.y - 0.5, vUv.x - 0.5);
-
-                // Create turbulence with noise
-                float noise = snoise(vUv * 10.0 + vec2(time * 0.2, 0.0));
-
-                // Mix colors based on radius
-                vec3 color = mix(innerColor, outerColor, radius * 2.0);
-
-                // Add noise to color and brightness
-                color += noise * 0.1;
-
-                // Fade out at the edges
-                float alpha = smoothstep(0.0, 0.1, radius) * (1.0 - smoothstep(0.45, 0.5, radius));
-                alpha *= 0.8; // Make it slightly transparent
-
+                float rotation = sin(angle * 3.0 + time * 0.5) * 0.15 + 0.85;
+                
+                // Smooth color with subtle variation
+                vec3 color = diskColor * rotation;
+                
+                // Smooth edge fade
+                float innerFade = smoothstep(0.0, 0.15, radius);
+                float outerFade = 1.0 - smoothstep(0.4, 0.5, radius);
+                float alpha = innerFade * outerFade * 0.7;
+                
+                // Add subtle glow
+                alpha += (1.0 - gradient) * 0.2;
+                
                 gl_FragColor = vec4(color, alpha);
             }
         `,
     side: THREE.DoubleSide,
     transparent: true,
     depthWrite: false,
+    blending: THREE.AdditiveBlending,
   });
   accretionDisk = new THREE.Mesh(diskGeometry, diskMaterial);
   accretionDisk.rotation.x = Math.PI / 2.2; // Tilt the disk
@@ -336,84 +314,7 @@ function initScrollAnimations() {
   animatedElements.forEach((el) => observer.observe(el));
 }
 
-// Text Scramble Effect
-class TextScramble {
-  constructor(el) {
-    this.el = el;
-    this.chars = '!<>-_\\/[]{}—=+*^?#________';
-    this.update = this.update.bind(this);
-  }
-
-  setText(newText) {
-    const oldText = this.el.innerText;
-    const length = Math.max(oldText.length, newText.length);
-    const promise = new Promise((resolve) => this.resolve = resolve);
-    this.queue = [];
-    for (let i = 0; i < length; i++) {
-      const from = oldText[i] || '';
-      const to = newText[i] || '';
-      const start = Math.floor(Math.random() * 40);
-      const end = start + Math.floor(Math.random() * 40);
-      this.queue.push({ from, to, start, end });
-    }
-    cancelAnimationFrame(this.frameRequest);
-    this.frame = 0;
-    this.update();
-    return promise;
-  }
-
-  update() {
-    let output = '';
-    let complete = 0;
-    for (let i = 0, n = this.queue.length; i < n; i++) {
-      let { from, to, start, end, char } = this.queue[i];
-      if (this.frame >= end) {
-        complete++;
-        output += to;
-      } else if (this.frame >= start) {
-        if (!char || Math.random() < 0.28) {
-          char = this.randomChar();
-          this.queue[i].char = char;
-        }
-        output += `<span class="dud">${char}</span>`;
-      } else {
-        output += from;
-      }
-    }
-    this.el.innerHTML = output;
-    if (complete === this.queue.length) {
-      this.resolve();
-    } else {
-      this.frameRequest = requestAnimationFrame(this.update);
-      this.frame++;
-    }
-  }
-
-  randomChar() {
-    return this.chars[Math.floor(Math.random() * this.chars.length)];
-  }
-}
-
-function initScrambleEffect() {
-  const el = document.querySelector('.role');
-  if (!el) return;
-
-  const fx = new TextScramble(el);
-  const phrases = [
-    'Machine Learning Engineer',
-    'Full Stack Developer'
-  ];
-
-  let counter = 0;
-  const next = () => {
-    fx.setText(phrases[counter]).then(() => {
-      setTimeout(next, 2500);
-    });
-    counter = (counter + 1) % phrases.length;
-  };
-
-  next();
-}
+// Removed scramble effect - now using pure CSS fade animation
 
 // Navigation and scrolling
 const sections = document.querySelectorAll(".section");
