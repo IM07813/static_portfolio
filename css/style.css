@@ -622,6 +622,17 @@ body.menu-open {
     transform: scale(1.2);
 }
 
+.social-icon img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.social-icon:hover img {
+    transform: scale(1.2);
+}
+
 
 /* Certifications Section */
 .certifications-grid {
