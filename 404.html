@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 | Page Not Found - Waqar</title>
+    <meta name="description" content="Page not found. The requested URL was not found on this server." />
+    <meta name="robots" content="noindex, follow" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+
+    <!-- Local Assets -->
+    <script src="/assets/vendor/js/three.min.js"></script>
+    <link rel="stylesheet" href="/assets/vendor/css/all.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <style>
+        /* Specific 404 styles */
+        .error-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .error-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .error-code {
+            font-family: "Orbitron", sans-serif;
+            font-size: clamp(6rem, 15vw, 12rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow), var(--accent-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 30px rgba(0, 255, 255, 0.4));
+            line-height: 1;
+            margin-bottom: 20px;
+            position: relative;
+            animation: glitch 3s infinite;
+        }
+
+        .error-message {
+            font-family: "Orbitron", sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--text-color);
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .error-description {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 40px;
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 0, 255, 0.4), 0 0 20px rgba(0, 255, 255, 0.4);
+        }
+
+        /* Glitch animation keyframes */
+        @keyframes glitch {
+            0% {
+                transform: translate(0)
+            }
+
+            20% {
+                transform: translate(-2px, 2px)
+            }
+
+            40% {
+                transform: translate(-2px, -2px)
+            }
+
+            60% {
+                transform: translate(2px, 2px)
+            }
+
+            80% {
+                transform: translate(2px, -2px)
+            }
+
+            100% {
+                transform: translate(0)
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-container">
+            <div class="box">
+                <div class="cube"></div>
+            </div>
+        </div>
+        <div class="loading-text">
+            Locating coordinates...<span class="loading-dots"></span>
+        </div>
+    </div>
+
+    <div id="threejs-container"></div>
+
+    <!-- Logo -->
+    <div class="logo">
+        <a href="/">
+            <img src="/assets/Handmade-removebg-preview.png" alt="Logo" class="logo-image">
+        </a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar desktop-nav">
+        <a href="/#home" class="nav-item">Home</a>
+        <a href="/#skills" class="nav-item">Skills</a>
+        <a href="/#projects" class="nav-item">Projects</a>
+        <a href="/#contact" class="nav-item">Contact</a>
+    </nav>
+
+    <!-- Mobile Hamburger Button -->
+    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </button>
+
+    <!-- Mobile Navigation Menu -->
+    <nav class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-content">
+            <a href="/#home" class="mobile-nav-item">Home</a>
+            <a href="/#skills" class="mobile-nav-item">Skills</a>
+            <a href="/#projects" class="mobile-nav-item">Projects</a>
+            <a href="/#contact" class="mobile-nav-item">Contact</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="error-section">
+            <div class="liquid-card fade-in-section error-container">
+                <h1 class="error-code">404</h1>
+                <h2 class="error-message">Model Failed to Converge</h2>
+                <p class="error-description">
+                    The page you're looking for seems to be an outlier in our dataset.
+                    It might have been moved, deleted, or never existed in this dimension.
+                </p>
+                <a href="/" class="home-btn">
+                    <i class="fas fa-rocket"></i> Return to Safety
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer"
+        style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.9rem; position: relative; z-index: 10;">
+        <p>&copy; 2025 Waqar Ahmed. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+
+</html>
