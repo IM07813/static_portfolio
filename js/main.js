@@ -490,7 +490,7 @@ function initMobileMenu() {
   const mobileNavBg = document.querySelector('.mobile-nav-bg');
   if (mobileNavBg) {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      if (window.scrollY > 10) {
         mobileNavBg.classList.add('scrolled');
       } else {
         mobileNavBg.classList.remove('scrolled');
