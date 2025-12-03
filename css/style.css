@@ -110,6 +110,31 @@ body {
     }
 }
 
+/* Mobile Nav Background */
+.mobile-nav-bg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    z-index: 90;
+    border-bottom: 1px solid transparent;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-bg.scrolled {
+    background: rgba(15, 15, 20, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
 /* Mobile Menu Toggle Button */
 .mobile-menu-toggle {
     position: fixed;
@@ -323,6 +348,146 @@ body.menu-open {
     color: var(--text-muted);
     margin-bottom: 40px;
     font-weight: 400;
+}
+
+.dynamic-subtitle {
+    position: relative;
+    min-height: 1.5em;
+    /* Reserve space for one line */
+    overflow: hidden;
+}
+
+/* Synchronized Animations (15s cycle) */
+
+/* Roles */
+.role-text {
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    width: 100%;
+}
+
+.role-text:nth-child(1) {
+    animation: roleCycleML 15s linear infinite;
+}
+
+.role-text:nth-child(2) {
+    animation: roleCycleWeb 15s linear infinite;
+}
+
+@keyframes roleCycleML {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    2% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    58% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    60% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes roleCycleWeb {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    58% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    60% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    98% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* Subtitles */
+.subtitle-text {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    animation: subtitleCycle 15s ease-in-out infinite;
+    width: 100%;
+}
+
+.subtitle-text:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.subtitle-text:nth-child(2) {
+    animation-delay: 3s;
+}
+
+.subtitle-text:nth-child(3) {
+    animation-delay: 6s;
+}
+
+.subtitle-text:nth-child(4) {
+    animation-delay: 9s;
+}
+
+.subtitle-text:nth-child(5) {
+    animation-delay: 12s;
+}
+
+@keyframes subtitleCycle {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    3% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    17% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    20% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
 }
 
 .image-container {
@@ -887,49 +1052,7 @@ body.menu-open {
     overflow: hidden;
 }
 
-.role-text {
-    display: inline-block;
-    opacity: 0;
-    animation: fadeInOut 6s ease-in-out infinite;
-    position: absolute;
-    left: 0;
-    right: 0;
-}
 
-.role-text:nth-child(1) {
-    animation-delay: 0s;
-}
-
-.role-text:nth-child(2) {
-    animation-delay: 3s;
-}
-
-@keyframes fadeInOut {
-    0% {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    10% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    40% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    50% {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-}
 
 .tool-item:hover {
     transform: translateY(-5px);
@@ -1009,6 +1132,11 @@ body.menu-open {
 
     /* Show mobile nav */
     .mobile-nav {
+        display: block;
+    }
+
+    /* Show mobile nav background */
+    .mobile-nav-bg {
         display: block;
     }
 

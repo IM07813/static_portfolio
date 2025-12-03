@@ -395,135 +395,151 @@ window.addEventListener("load", function () {
 
 // Video Modal Functionality
 const videoUrls = {
-    'snapgorithm': 'videos/snapgorithm_compressed.mp4',
-    'crm': 'videos/farm_stack_agentic_CRM.mp4',
-    'realestate': 'videos/realestate_pro.mp4',
-    'construction': 'videos/contruction_site_portfolio.mp4'
+  'snapgorithm': 'videos/snapgorithm_compressed.mp4',
+  'crm': 'videos/farm_stack_agentic_CRM.mp4',
+  'realestate': 'videos/realestate_pro.mp4',
+  'construction': 'videos/contruction_site_portfolio.mp4'
 };
 
 function openVideoModal(videoSrc) {
-    const modal = document.getElementById('videoModal');
-    const video = document.getElementById('modalVideo');
-    if (!modal || !video) return;
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideo');
+  if (!modal || !video) return;
 
-    video.src = videoSrc;
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+  video.src = videoSrc;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
 
-    // Auto play video
-    video.play().catch(e => console.log('Auto-play prevented:', e));
+  // Auto play video
+  video.play().catch(e => console.log('Auto-play prevented:', e));
 }
 
 function closeVideoModal() {
-    const modal = document.getElementById('videoModal');
-    const video = document.getElementById('modalVideo');
-    if (!modal || !video) return;
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideo');
+  if (!modal || !video) return;
 
-    video.pause();
-    video.src = '';
-    modal.classList.remove('active', 'minimized');
-    document.body.style.overflow = '';
+  video.pause();
+  video.src = '';
+  modal.classList.remove('active', 'minimized');
+  document.body.style.overflow = '';
 }
 
 function minimizeVideo() {
-    const modal = document.getElementById('videoModal');
-    if (modal) modal.classList.toggle('minimized');
+  const modal = document.getElementById('videoModal');
+  if (modal) modal.classList.toggle('minimized');
 }
 
 // Mobile Menu Functionality
 function initMobileMenu() {
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const mobileNav = document.getElementById('mobile-nav');
-    const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
-    const body = document.body;
+  const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+  const body = document.body;
 
-    if (!mobileMenuToggle || !mobileNav) return;
+  if (!mobileMenuToggle || !mobileNav) return;
 
-    // Toggle mobile menu
-    mobileMenuToggle.addEventListener('click', function () {
-        mobileNav.classList.toggle('active');
-        mobileMenuToggle.classList.toggle('active');
-        body.classList.toggle('menu-open');
+  // Toggle mobile menu
+  mobileMenuToggle.addEventListener('click', function () {
+    mobileNav.classList.toggle('active');
+    mobileMenuToggle.classList.toggle('active');
+    body.classList.toggle('menu-open');
+  });
+
+  // Close menu when clicking on nav items
+  mobileNavItems.forEach(item => {
+    item.addEventListener('click', function () {
+      mobileNav.classList.remove('active');
+      mobileMenuToggle.classList.remove('active');
+      body.classList.remove('menu-open');
+
+      // Update active state
+      document.querySelectorAll('.nav-item, .mobile-nav-item').forEach(navItem => {
+        navItem.classList.remove('active');
+      });
+      this.classList.add('active');
+
+      // Also update desktop nav
+      const href = this.getAttribute('href');
+      const desktopNavItem = document.querySelector(`.nav-item[href="${href}"]`);
+      if (desktopNavItem) {
+        desktopNavItem.classList.add('active');
+      }
     });
+  });
 
-    // Close menu when clicking on nav items
-    mobileNavItems.forEach(item => {
-        item.addEventListener('click', function () {
-            mobileNav.classList.remove('active');
-            mobileMenuToggle.classList.remove('active');
-            body.classList.remove('menu-open');
+  // Close menu when clicking outside
+  document.addEventListener('click', function (e) {
+    if (!mobileNav.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+      mobileNav.classList.remove('active');
+      mobileMenuToggle.classList.remove('active');
+      body.classList.remove('menu-open');
+    }
+  });
 
-            // Update active state
-            document.querySelectorAll('.nav-item, .mobile-nav-item').forEach(navItem => {
-                navItem.classList.remove('active');
-            });
-            this.classList.add('active');
+  // Handle window resize
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 768) {
+      mobileNav.classList.remove('active');
+      mobileMenuToggle.classList.remove('active');
+      body.classList.remove('menu-open');
+    }
+  });
 
-            // Also update desktop nav
-            const href = this.getAttribute('href');
-            const desktopNavItem = document.querySelector(`.nav-item[href="${href}"]`);
-            if (desktopNavItem) {
-                desktopNavItem.classList.add('active');
-            }
-        });
-    });
+  // Handle scroll for mobile nav background
+  const mobileNavBg = document.querySelector('.mobile-nav-bg');
+  if (mobileNavBg) {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        mobileNavBg.classList.add('scrolled');
+      } else {
+        mobileNavBg.classList.remove('scrolled');
+      }
+    };
 
-    // Close menu when clicking outside
-    document.addEventListener('click', function (e) {
-        if (!mobileNav.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-            mobileNav.classList.remove('active');
-            mobileMenuToggle.classList.remove('active');
-            body.classList.remove('menu-open');
-        }
-    });
-
-    // Handle window resize
-    window.addEventListener('resize', function () {
-        if (window.innerWidth > 768) {
-            mobileNav.classList.remove('active');
-            mobileMenuToggle.classList.remove('active');
-            body.classList.remove('menu-open');
-        }
-    });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Check initial state
+    handleScroll();
+  }
 }
 
 // Initialize UI components
 document.addEventListener('DOMContentLoaded', function () {
-    // Video Modal Listeners
-    const closeBtn = document.getElementById('closeBtn');
-    const minimizeBtn = document.getElementById('minimizeBtn');
-    const modal = document.getElementById('videoModal');
+  // Video Modal Listeners
+  const closeBtn = document.getElementById('closeBtn');
+  const minimizeBtn = document.getElementById('minimizeBtn');
+  const modal = document.getElementById('videoModal');
 
-    if (closeBtn) closeBtn.addEventListener('click', closeVideoModal);
-    if (minimizeBtn) minimizeBtn.addEventListener('click', minimizeVideo);
+  if (closeBtn) closeBtn.addEventListener('click', closeVideoModal);
+  if (minimizeBtn) minimizeBtn.addEventListener('click', minimizeVideo);
 
-    // Add click listeners to video preview buttons
-    document.querySelectorAll('.video-preview-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const videoKey = this.getAttribute('data-video');
-            const videoSrc = videoUrls[videoKey];
-            if (videoSrc) {
-                openVideoModal(videoSrc);
-            }
-        });
+  // Add click listeners to video preview buttons
+  document.querySelectorAll('.video-preview-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const videoKey = this.getAttribute('data-video');
+      const videoSrc = videoUrls[videoKey];
+      if (videoSrc) {
+        openVideoModal(videoSrc);
+      }
     });
+  });
 
-    // Close modal when clicking outside video
-    if (modal) {
-        modal.addEventListener('click', function (e) {
-            if (e.target === modal) {
-                closeVideoModal();
-            }
-        });
+  // Close modal when clicking outside video
+  if (modal) {
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) {
+        closeVideoModal();
+      }
+    });
+  }
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+      closeVideoModal();
     }
+  });
 
-    // Close modal with Escape key
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
-            closeVideoModal();
-        }
-    });
-
-    // Initialize Mobile Menu
-    initMobileMenu();
+  // Initialize Mobile Menu
+  initMobileMenu();
 });
