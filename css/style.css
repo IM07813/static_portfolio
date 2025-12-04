@@ -352,8 +352,8 @@ body.menu-open {
 
 .dynamic-subtitle {
     position: relative;
-    min-height: 1.5em;
-    /* Reserve space for one line */
+    min-height: 3em;
+    /* Reserve space for up to 2 lines */
     overflow: hidden;
 }
 
@@ -441,6 +441,9 @@ body.menu-open {
     opacity: 0;
     animation: subtitleCycle 15s ease-in-out infinite;
     width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
+    line-height: 1.5;
 }
 
 .subtitle-text:nth-child(1) {
