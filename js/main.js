@@ -395,10 +395,12 @@ window.addEventListener("load", function () {
 
 // Video Modal Functionality
 const videoUrls = {
-  'snapgorithm': 'videos/snapgorithm_compressed.mp4',
+  'snapgorithm': 'videos/snapgorithm_new_site_compressed.mp4',
   'crm': 'videos/farm_stack_agentic_CRM.mp4',
   'realestate': 'videos/realestate_pro.mp4',
-  'construction': 'videos/contruction_site_portfolio.mp4'
+  'construction': 'videos/contruction_site_portfolio.mp4',
+  'rag': 'videos/rag_model_preview_compressed.mp4',
+  'linkedin-scraper': 'videos/linkedin_scrapper_preview_compressed.mp4'
 };
 
 function openVideoModal(videoSrc) {
