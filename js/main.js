@@ -1,298 +1,40 @@
-// Loading screen management
-let isLoading = true;
-let loadingScreen;
-let resourcesLoaded = 0;
-let totalResources = 0;
+// =============================================
+// LOADING SCREEN
+// =============================================
 
-function initializeLoading() {
-  loadingScreen = document.getElementById("loading-screen");
+// Record the moment the script starts executing
+const LOADER_MIN_MS = 1800; // ms — minimum display time
+const loaderStart = Date.now();
+let loaderDismissed = false;
 
-  // Count resources to load
-  const images = document.querySelectorAll("img");
-  const scripts = document.querySelectorAll("script[src]");
-  totalResources = images.length + scripts.length + 1; // +1 for Three.js scene
+function hideLoader() {
+  if (loaderDismissed) return;
+  loaderDismissed = true;
 
-  // Monitor image loading
-  images.forEach((img) => {
-    if (img.complete) {
-      resourcesLoaded++;
-    } else {
-      img.addEventListener("load", () => {
-        resourcesLoaded++;
-        checkLoadingComplete();
-      });
-      img.addEventListener("error", () => {
-        resourcesLoaded++;
-        checkLoadingComplete();
-      });
-    }
-  });
+  const elapsed = Date.now() - loaderStart;
+  const remaining = Math.max(0, LOADER_MIN_MS - elapsed);
 
-  // Monitor script loading
-  scripts.forEach((script) => {
-    script.addEventListener("load", () => {
-      resourcesLoaded++;
-      checkLoadingComplete();
-    });
-    script.addEventListener("error", () => {
-      resourcesLoaded++;
-      checkLoadingComplete();
-    });
-  });
-
-  // Start minimum loading time
   setTimeout(() => {
-    resourcesLoaded++;
-    checkLoadingComplete();
-  }, 2000); // Minimum 2 seconds loading time
+    const screen = document.getElementById('loading-screen');
+    if (!screen) return;
+
+    screen.classList.add('hidden');
+
+    // Remove the element from the DOM cleanly after the CSS fade completes
+    screen.addEventListener('transitionend', () => {
+      if (screen.parentNode) screen.parentNode.removeChild(screen);
+    }, { once: true });
+
+    // Start scroll animations after the loader is gone
+    initScrollAnimations();
+  }, remaining);
 }
 
-function checkLoadingComplete() {
-  if (resourcesLoaded >= totalResources && isLoading) {
-    setTimeout(() => {
-      hideLoadingScreen();
-    }, 500); // Small delay for smooth transition
-  }
-}
+// Primary trigger: fires when ALL resources are fully loaded
+window.addEventListener('load', hideLoader);
 
-function hideLoadingScreen() {
-  if (loadingScreen) {
-    loadingScreen.classList.add("hidden");
-    isLoading = false;
-
-    // Remove loading screen after transition
-    setTimeout(() => {
-      loadingScreen.style.display = "none";
-    }, 500);
-
-    // Start animations after loading screen is hidden
-    setTimeout(() => {
-      initScrollAnimations();
-    }, 500);
-  }
-}
-
-// Three.js black hole setup
-
-let scene, camera, renderer, stars, blackHole, accretionDisk;
-let blackHoleGroup = new THREE.Group();
-
-// Create circular star texture to fix square star bug
-function createStarTexture() {
-  const canvas = document.createElement('canvas');
-  canvas.width = 32;
-  canvas.height = 32;
-  const ctx = canvas.getContext('2d');
-
-  // Create radial gradient for circular star
-  const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-  gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-  gradient.addColorStop(0.2, 'rgba(255, 255, 255, 1)');
-  gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, 32, 32);
-
-  const texture = new THREE.CanvasTexture(canvas);
-  return texture;
-}
-
-function init() {
-  // Scene setup
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    2000,
-  );
-  renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.getElementById("threejs-container").appendChild(renderer.domElement);
-
-  camera.position.z = 10;
-
-  // --- Starfield ---
-  const starGeometry = new THREE.BufferGeometry();
-  const starVertices = [];
-  const starCount = window.innerWidth < 768 ? 8000 : 15000; // Optimize for mobile
-  for (let i = 0; i < starCount; i++) {
-    const x = (Math.random() - 0.5) * 2000;
-    const y = (Math.random() - 0.5) * 2000;
-    const z = (Math.random() - 0.5) * 2000;
-    starVertices.push(x, y, z);
-  }
-  starGeometry.setAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(starVertices, 3),
-  );
-  const starMaterial = new THREE.PointsMaterial({
-    color: 0xffffff,
-    size: 0.5,
-    transparent: true,
-    opacity: 0.9,
-    sizeAttenuation: true,
-    alphaTest: 0.1,
-    map: createStarTexture()
-  });
-  stars = new THREE.Points(starGeometry, starMaterial);
-  scene.add(stars);
-
-  // --- Black Hole ---
-  // The black hole itself is a sphere that will have a gravitational lensing shader
-  const blackHoleGeometry = new THREE.SphereGeometry(1.5, 64, 64);
-  const blackHoleMaterial = new THREE.ShaderMaterial({
-    uniforms: {
-      time: { value: 1.0 },
-      resolution: { value: new THREE.Vector2() },
-    },
-    vertexShader: `
-            varying vec2 vUv;
-            void main() {
-                vUv = uv;
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-            }
-        `,
-    fragmentShader: `
-            uniform float time;
-            uniform vec2 resolution;
-            varying vec2 vUv;
-
-            void main() {
-                vec2 center = vec2(0.5, 0.5);
-                float dist = distance(vUv, center);
-                // Simple dark center, you can make this more complex for lensing
-                float strength = smoothstep(0.5, 0.45, dist);
-                gl_FragColor = vec4(vec3(0.0), strength);
-            }
-        `,
-    transparent: true,
-  });
-  blackHole = new THREE.Mesh(blackHoleGeometry, blackHoleMaterial);
-  blackHoleGroup.add(blackHole);
-
-  // --- Accretion Disk ---
-  const diskGeometry = new THREE.RingGeometry(1.6, 4, 256, 64);
-  const diskMaterial = new THREE.ShaderMaterial({
-    uniforms: {
-      time: { value: 0.0 },
-      diskColor: { value: new THREE.Color(0x00ffff) }, // Cyan glow color
-    },
-    vertexShader: `
-            varying vec2 vUv;
-            varying vec3 vPosition;
-            void main() {
-                vUv = uv;
-                vPosition = position;
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-            }
-        `,
-    fragmentShader: `
-            varying vec2 vUv;
-            varying vec3 vPosition;
-            uniform float time;
-            uniform vec3 diskColor;
-
-            void main() {
-                vec2 center = vec2(0.5, 0.5);
-                float radius = distance(vUv, center);
-                
-                // Smooth radial gradient from inner to outer edge
-                float gradient = smoothstep(0.0, 0.5, radius);
-                
-                // Create smooth rotating brightness variation
-                float angle = atan(vUv.y - 0.5, vUv.x - 0.5);
-                float rotation = sin(angle * 3.0 + time * 0.5) * 0.15 + 0.85;
-                
-                // Smooth color with subtle variation
-                vec3 color = diskColor * rotation;
-                
-                // Smooth edge fade
-                float innerFade = smoothstep(0.0, 0.15, radius);
-                float outerFade = 1.0 - smoothstep(0.4, 0.5, radius);
-                float alpha = innerFade * outerFade * 0.7;
-                
-                // Add subtle glow
-                alpha += (1.0 - gradient) * 0.2;
-                
-                gl_FragColor = vec4(color, alpha);
-            }
-        `,
-    side: THREE.DoubleSide,
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-  });
-  accretionDisk = new THREE.Mesh(diskGeometry, diskMaterial);
-  accretionDisk.rotation.x = Math.PI / 2.2; // Tilt the disk
-  blackHoleGroup.add(accretionDisk);
-
-  scene.add(blackHoleGroup);
-
-  // Mouse interaction
-  document.addEventListener("mousemove", onMouseMove, false);
-
-  // Mark Three.js as loaded
-  resourcesLoaded++;
-  checkLoadingComplete();
-}
-
-let mouseX = 0,
-  mouseY = 0;
-function onMouseMove(event) {
-  mouseX = (event.clientX - window.innerWidth / 2) / 100;
-  mouseY = (event.clientY - window.innerHeight / 2) / 100;
-}
-
-function animate() {
-  if (document.hidden) {
-    setTimeout(() => requestAnimationFrame(animate), 500); // Check less frequently when hidden
-    return;
-  }
-  requestAnimationFrame(animate);
-
-  const time = Date.now() * 0.0001;
-
-  // Update shader uniforms
-  if (accretionDisk && blackHole) {
-    accretionDisk.material.uniforms.time.value = time;
-    blackHole.material.uniforms.time.value = time;
-  }
-
-  // Rotate the starfield slowly
-  if (stars) {
-    stars.rotation.y += 0.0001;
-  }
-
-  // Rotate the black hole system
-  if (blackHoleGroup) {
-    blackHoleGroup.rotation.y += 0.001;
-    blackHoleGroup.rotation.z += 0.0005;
-  }
-
-  // Camera movement based on mouse
-  if (camera) {
-    camera.position.x += (mouseX - camera.position.x) * 0.01;
-    camera.position.y += (-mouseY - camera.position.y) * 0.01;
-    camera.lookAt(scene.position);
-  }
-
-  if (renderer && scene && camera) {
-    renderer.render(scene, camera);
-  }
-}
-
-function onWindowResize() {
-  if (camera && renderer && blackHole) {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    blackHole.material.uniforms.resolution.value.x = renderer.domElement.width;
-    blackHole.material.uniforms.resolution.value.y = renderer.domElement.height;
-  }
-}
-
-window.addEventListener("resize", onWindowResize, false);
+// Hard failsafe: never stuck longer than 5 seconds no matter what
+setTimeout(hideLoader, 5000);
 
 // Scroll Animations
 function initScrollAnimations() {
@@ -369,27 +111,7 @@ function checkBrowserCompatibility() {
 // Initialization
 document.addEventListener("DOMContentLoaded", function () {
   // Check browser compatibility first
-  const browserFeatures = checkBrowserCompatibility();
-
-  // Initialize loading screen
-  initializeLoading();
-
-  // Initialize Three.js
-  if (typeof THREE !== "undefined") {
-    init();
-    animate();
-  }
-
-});
-
-// Fallback in case resources don't load properly
-window.addEventListener("load", function () {
-  setTimeout(() => {
-    if (isLoading) {
-      hideLoadingScreen();
-    }
-
-  }, 5000); // Maximum 5 seconds loading time
+  checkBrowserCompatibility();
 });
 
 
