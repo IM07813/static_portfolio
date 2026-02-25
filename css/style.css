@@ -88,6 +88,9 @@ body::before {
         0 8px 32px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.15),
         inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+    max-width: calc(100vw - 40px);
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .nav-bar::before,
@@ -762,6 +765,18 @@ body.menu-open {
     transform: scale(1.05);
 }
 
+/* Adjust logo for zoom levels that trigger mobile view */
+@media (max-width: 1370px) {
+    .logo {
+        top: 15px;
+        left: 15px;
+    }
+    
+    .logo-image {
+        width: 140px;
+    }
+}
+
 /* Social Icons Styles */
 .social-icons {
     position: fixed;
@@ -772,6 +787,13 @@ body.menu-open {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+/* Hide desktop social icons at zoom levels that cause overlap */
+@media (max-width: 1370px) {
+    .social-icons {
+        display: none;
+    }
 }
 
 .social-icon {
@@ -1156,8 +1178,21 @@ body.menu-open {
     font-weight: 500;
 }
 
+/* =============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================= 
+   - 1280px and below: Tablet adjustments
+   - 1370px and below: Mobile view (triggers after 133% zoom, around 140% on 1920px screens)
+     * Desktop nav hidden, hamburger menu shown
+     * Social icons move to bottom right
+     * Logo size reduced
+   - 768px and below: Standard mobile devices
+   - 480px and below: Small mobile devices
+   - 360px and below: Extra small devices
+   ============================================= */
+
 /* Tablet Styles */
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
     .container {
         padding: 0 15px;
     }
@@ -1179,10 +1214,15 @@ body.menu-open {
     .certifications-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     }
+    
+    .tools-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 12px;
+    }
 }
 
-/* Mobile Landscape and Small Tablets */
-@media (max-width: 768px) {
+/* Mobile Landscape and Small Tablets - Triggers after 133% zoom on 1920px screen */
+@media (max-width: 1370px) {
     .container {
         padding: 0 15px;
     }
@@ -1285,6 +1325,7 @@ body.menu-open {
     }
 
     .social-icons {
+        display: flex !important;
         position: fixed;
         bottom: 20px;
         right: 20px;

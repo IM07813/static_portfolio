@@ -56,38 +56,59 @@ function initScrollAnimations() {
   animatedElements.forEach((el) => observer.observe(el));
 }
 
-// Removed scramble effect - now using pure CSS fade animation
-
 // Navigation and scrolling
-const sections = document.querySelectorAll(".section");
-const navLinks = document.querySelectorAll(".nav-item");
-
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        navLinks.forEach((link) => {
-          link.classList.remove("active");
-          if (link.getAttribute("href").substring(1) === entry.target.id) {
-            link.classList.add("active");
-          }
-        });
+document.addEventListener('DOMContentLoaded', function() {
+  const sections = document.querySelectorAll('section');
+  const navItems = document.querySelectorAll('.nav-item');
+  const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+  
+  if (sections.length === 0 || navItems.length === 0) {
+    return;
+  }
+  
+  function setActiveNav() {
+    let currentSection = '';
+    
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      
+      if (window.scrollY >= sectionTop - 150) {
+        currentSection = section.getAttribute('id');
       }
     });
-  },
-  {
-    threshold: 0.3,
-    rootMargin: '-100px 0px -100px 0px'
-  },
-);
-
-sections.forEach((section) => observer.observe(section));
-
-navLinks.forEach((anchor) => {
-  anchor.addEventListener("click", function (e) {
-    e.preventDefault();
-    document.querySelector(this.getAttribute("href")).scrollIntoView({
-      behavior: "smooth",
+    
+    if (currentSection) {
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href') === '#' + currentSection) {
+          item.classList.add('active');
+        }
+      });
+      
+      mobileNavItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href') === '#' + currentSection) {
+          item.classList.add('active');
+        }
+      });
+    }
+  }
+  
+  // Run on scroll
+  window.addEventListener('scroll', setActiveNav);
+  
+  // Run initially
+  setActiveNav();
+  
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   });
 });
@@ -172,22 +193,29 @@ function initMobileMenu() {
 
   // Close menu when clicking on nav items
   mobileNavItems.forEach(item => {
-    item.addEventListener('click', function () {
+    item.addEventListener('click', function (e) {
+      e.preventDefault();
+      
       mobileNav.classList.remove('active');
       mobileMenuToggle.classList.remove('active');
       body.classList.remove('menu-open');
 
-      // Update active state
+      // Update active state for both mobile and desktop nav
+      const href = this.getAttribute('href');
+      
       document.querySelectorAll('.nav-item, .mobile-nav-item').forEach(navItem => {
         navItem.classList.remove('active');
+        if (navItem.getAttribute('href') === href) {
+          navItem.classList.add('active');
+        }
       });
-      this.classList.add('active');
 
-      // Also update desktop nav
-      const href = this.getAttribute('href');
-      const desktopNavItem = document.querySelector(`.nav-item[href="${href}"]`);
-      if (desktopNavItem) {
-        desktopNavItem.classList.add('active');
+      // Smooth scroll to section
+      const targetSection = document.querySelector(href);
+      if (targetSection) {
+        targetSection.scrollIntoView({
+          behavior: 'smooth'
+        });
       }
     });
   });
