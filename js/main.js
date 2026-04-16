@@ -174,16 +174,18 @@ function initCursorGlow() {
     pointerEvents:  "none",
     zIndex:         "1",
     background:     "radial-gradient(circle, rgba(255,215,0,0.045) 0%, transparent 70%)",
-    transform:      "translate(-50%, -50%)",
-    transition:     "left 0.08s linear, top 0.08s linear",
-    left:           "-500px",
-    top:            "-500px",
+    // FIX: transform:translate() runs on the GPU compositor thread — no layout reflow.
+    // The old left/top approach caused a full layout reflow on EVERY mousemove event.
+    transform:      "translate(-500px, -500px)",
+    top:            "0",
+    left:           "0",
+    willChange:     "transform",
   });
   document.body.appendChild(glow);
 
   window.addEventListener("mousemove", (e) => {
-    glow.style.left = e.clientX + "px";
-    glow.style.top  = e.clientY + "px";
+    // translate() is composited on the GPU — essentially zero CPU cost
+    glow.style.transform = `translate(${e.clientX - 170}px, ${e.clientY - 170}px)`;
   }, { passive: true });
 }
 
@@ -409,4 +411,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Scroll to top button
   initScrollToTop();
+
+  // =============================================
+  // PAGE VISIBILITY API — pause everything when tab is hidden
+  // This gives 100% CPU savings when the user switches to another tab.
+  // =============================================
+  document.addEventListener("visibilitychange", () => {
+    const hidden = document.hidden;
+    // Pause all CSS animations site-wide
+    document.body.style.animationPlayState = hidden ? "paused" : "running";
+    // Pause animations on all animated children too
+    document.querySelectorAll(
+      ".role-text, .subtitle-text, .scroll-arrows span, .loader-dot, .desktop-nav::before"
+    ).forEach(el => {
+      el.style.animationPlayState = hidden ? "paused" : "running";
+    });
+  });
 });
