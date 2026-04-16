@@ -529,6 +529,11 @@ body.menu-open { overflow: hidden; }
     text-align: center;
 }
 
+/* Hero card specifically needs overflow:visible so profile image can pop out on hover */
+.hero.liquid-card {
+    overflow: visible;
+}
+
 @media (min-width: 992px) {
     .hero { grid-template-columns: 1.3fr 1fr; text-align: left; }
 }
@@ -663,7 +668,7 @@ body.menu-open { overflow: hidden; }
 }
 .cta-button:hover::before { opacity: 1; }
 
-/* Profile image */
+/* Profile image — floats mid-air with no container border */
 .image-container {
     position: relative;
     width: 100%;
@@ -671,11 +676,10 @@ body.menu-open { overflow: hidden; }
     height: 360px;
     margin: 0 auto;
     border-radius: 24px;
-    /* Static golden border — no spinning, no JS cost */
-    box-shadow:
-        0 0 0 2px rgba(255, 215, 0, 0.30),
-        0 0 24px rgba(255, 215, 0, 0.14),
-        0 8px 40px rgba(0, 0, 0, 0.8);
+    /* No ring/border — pure floating image effect */
+    box-shadow: none;
+    border: none;
+    background: transparent;
     overflow: visible;
 }
 
@@ -684,12 +688,16 @@ body.menu-open { overflow: hidden; }
     object-fit: cover;
     border-radius: 24px;
     display: block;
+    /* Subtle ambient glow on the image itself — not the container */
+    filter: drop-shadow(0 8px 32px rgba(0, 0, 0, 0.75))
+            drop-shadow(0 0 20px rgba(255, 215, 0, 0.08));
     transition: transform 0.5s var(--ease-spring), filter 0.5s ease;
 }
 
 .image-container:hover .profile-image {
-    transform: scale(1.04);
-    filter: brightness(1.06);
+    transform: scale(1.06) translateY(-6px);
+    filter: drop-shadow(0 18px 48px rgba(0, 0, 0, 0.85))
+            drop-shadow(0 0 32px rgba(255, 215, 0, 0.15));
 }
 
 /* Scroll arrows (Cascading Chevrons) */
@@ -877,35 +885,46 @@ body.menu-open { overflow: hidden; }
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    padding: 16px 14px;
+    padding: 14px 8px;
     background: rgba(255,215,0,0.03);
     border: 1px solid rgba(255,215,0,0.14);
     border-top-color: rgba(255,215,0,0.25);
     border-radius: 12px;
-    min-width: 76px;
+    /* Fixed uniform size — big enough for all labels */
+    width: 106px;
+    height: 106px;
+    flex-shrink: 0;
     cursor: default;
-    transition: all 0.3s var(--ease-spring);
+    /* Single unified transition — same speed for glow + lift */
+    transition:
+        transform 0.18s cubic-bezier(0.25, 1, 0.5, 1),
+        background 0.18s cubic-bezier(0.25, 1, 0.5, 1),
+        border-color 0.18s cubic-bezier(0.25, 1, 0.5, 1),
+        box-shadow 0.18s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .tool-item:hover {
     background: rgba(255,215,0,0.08);
     border-color: rgba(255,215,0,0.38);
-    transform: translateY(-4px) scale(1.07);
+    transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0,0,0,0.55),
                 0 0 14px rgba(255,215,0,0.12);
 }
 
 .tool-icon {
-    width: 38px; height: 38px;
+    width: 40px; height: 40px;
     display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
 }
 
 .tool-icon img {
     width: 100%; height: 100%;
     object-fit: contain;
     filter: brightness(0.8);
-    transition: filter 0.3s ease;
+    /* Exact same timing as the card itself */
+    transition: filter 0.18s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .tool-item:hover .tool-icon img {
@@ -913,12 +932,17 @@ body.menu-open { overflow: hidden; }
 }
 
 .tool-name {
-    font-size: 0.66rem;
+    font-size: 0.62rem;
     color: var(--text-muted);
     font-weight: 600;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     text-align: center;
     text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    padding: 0 6px;
 }
 
 /* =========================================================

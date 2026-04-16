@@ -6,7 +6,7 @@
 // =============================================
 // LOADING SCREEN
 // =============================================
-const LOADER_MIN_MS = 1800;
+const LOADER_MIN_MS = 1200;
 const loaderStart   = Date.now();
 let loaderDismissed = false;
 
@@ -302,7 +302,18 @@ function initStaggerAnimations() {
   grids.forEach((grid) => {
     const children = Array.from(grid.children);
     children.forEach((child, i) => {
+      // Apply stagger delay only for the scroll-in entry animation
       child.style.transitionDelay = `${i * 60}ms`;
+
+      // After the entry animation finishes, REMOVE the delay so
+      // hover interactions (rise-up) are instant and equal for ALL items
+      const clearDelay = () => {
+        child.style.transitionDelay = "0ms";
+      };
+
+      // Clear after the longest possible stagger + transition duration
+      const entryDuration = i * 60 + 900; // stagger offset + 0.85s fade-in
+      setTimeout(clearDelay, entryDuration);
     });
   });
 }
