@@ -1,41 +1,8 @@
-/**
- * main.js — Portfolio Interactive Logic
- * Black & Gold Premium Portfolio
- */
 
-// =============================================
-// LOADING SCREEN
-// =============================================
-const LOADER_MIN_MS = 1200;
-const loaderStart   = Date.now();
-let loaderDismissed = false;
 
-function hideLoader() {
-  if (loaderDismissed) return;
-  loaderDismissed = true;
-
-  const elapsed   = Date.now() - loaderStart;
-  const remaining = Math.max(0, LOADER_MIN_MS - elapsed);
-
-  setTimeout(() => {
-    const screen = document.getElementById("loading-screen");
-    if (!screen) return;
-
-    screen.classList.add("hidden");
-    screen.addEventListener(
-      "transitionend",
-      () => { if (screen.parentNode) screen.parentNode.removeChild(screen); },
-      { once: true }
-    );
-
-    initScrollAnimations();
-    initCursorGlow();
-    initParallaxCards();
-  }, remaining);
-}
-
-window.addEventListener("load", hideLoader);
-setTimeout(hideLoader, 5000);   // hard failsafe
+initScrollAnimations();
+initCursorGlow();
+initParallaxCards();
 
 // =============================================
 // SCROLL ANIMATIONS (Intersection Observer)
@@ -62,9 +29,9 @@ function initScrollAnimations() {
 // ACTIVE NAV HIGHLIGHT (scroll spy)
 // =============================================
 document.addEventListener("DOMContentLoaded", function () {
-  const sections     = document.querySelectorAll("section");
-  const navItems     = document.querySelectorAll(".nav-item");
-  const mobileItems  = document.querySelectorAll(".mobile-nav-item");
+  const sections = document.querySelectorAll("section");
+  const navItems = document.querySelectorAll(".nav-item");
+  const mobileItems = document.querySelectorAll(".mobile-nav-item");
 
   function setActiveNav() {
     let current = "";
@@ -99,10 +66,10 @@ document.addEventListener("DOMContentLoaded", function () {
 // MOBILE MENU
 // =============================================
 function initMobileMenu() {
-  const toggle     = document.getElementById("mobile-menu-toggle");
-  const mobileNav  = document.getElementById("mobile-nav");
-  const mobileItems= document.querySelectorAll(".mobile-nav-item");
-  const body       = document.body;
+  const toggle = document.getElementById("mobile-menu-toggle");
+  const mobileNav = document.getElementById("mobile-nav");
+  const mobileItems = document.querySelectorAll(".mobile-nav-item");
+  const body = document.body;
 
   if (!toggle || !mobileNav) return;
 
@@ -167,19 +134,19 @@ function initCursorGlow() {
   const glow = document.createElement("div");
   glow.id = "cursor-glow";
   Object.assign(glow.style, {
-    position:       "fixed",
-    width:          "340px",
-    height:         "340px",
-    borderRadius:   "50%",
-    pointerEvents:  "none",
-    zIndex:         "1",
-    background:     "radial-gradient(circle, rgba(255,215,0,0.045) 0%, transparent 70%)",
+    position: "fixed",
+    width: "340px",
+    height: "340px",
+    borderRadius: "50%",
+    pointerEvents: "none",
+    zIndex: "1",
+    background: "radial-gradient(circle, rgba(255,215,0,0.045) 0%, transparent 70%)",
     // FIX: transform:translate() runs on the GPU compositor thread — no layout reflow.
     // The old left/top approach caused a full layout reflow on EVERY mousemove event.
-    transform:      "translate(-500px, -500px)",
-    top:            "0",
-    left:           "0",
-    willChange:     "transform",
+    transform: "translate(-500px, -500px)",
+    top: "0",
+    left: "0",
+    willChange: "transform",
   });
   document.body.appendChild(glow);
 
@@ -202,10 +169,10 @@ function initParallaxCards() {
   cards.forEach((card) => {
     card.addEventListener("mousemove", (e) => {
       const rect = card.getBoundingClientRect();
-      const cx   = (e.clientX - rect.left) / rect.width  - 0.5;  // -0.5 … 0.5
-      const cy   = (e.clientY - rect.top)  / rect.height - 0.5;
-      const rx   = -cy * 10;   // rotation x (tilt up/down)
-      const ry   =  cx * 10;   // rotation y (tilt left/right)
+      const cx = (e.clientX - rect.left) / rect.width - 0.5;  // -0.5 … 0.5
+      const cy = (e.clientY - rect.top) / rect.height - 0.5;
+      const rx = -cy * 10;   // rotation x (tilt up/down)
+      const ry = cx * 10;   // rotation y (tilt left/right)
 
       card.style.transform =
         `translateY(-6px) rotateX(${rx}deg) rotateY(${ry}deg)`;
@@ -213,7 +180,7 @@ function initParallaxCards() {
     });
 
     card.addEventListener("mouseleave", () => {
-      card.style.transform  = "";
+      card.style.transform = "";
       card.style.transition = "transform 0.5s cubic-bezier(0.25,1,0.5,1)";
     });
   });
@@ -223,12 +190,12 @@ function initParallaxCards() {
 // VIDEO MODAL
 // =============================================
 const videoUrls = {
-  snapgorithm:       "videos/snapgorithm_new_site_compressed.mp4",
-  crm:               "videos/farm_stack_agentic_CRM.mp4",
-  realestate:        "videos/realestate_pro.mp4",
-  construction:      "videos/contruction_site_portfolio.mp4",
-  rag:               "videos/rag_model_preview_compressed.mp4",
-  "linkedin-scraper":"videos/linkedin_scrapper_preview_compressed.mp4",
+  snapgorithm: "videos/snapgorithm_new_site_compressed.mp4",
+  crm: "videos/farm_stack_agentic_CRM.mp4",
+  realestate: "videos/realestate_pro.mp4",
+  construction: "videos/contruction_site_portfolio.mp4",
+  rag: "videos/rag_model_preview_compressed.mp4",
+  "linkedin-scraper": "videos/linkedin_scrapper_preview_compressed.mp4",
 };
 
 function openVideoModal(src) {
@@ -239,7 +206,7 @@ function openVideoModal(src) {
   video.src = src;
   modal.classList.add("active");
   document.body.style.overflow = "hidden";
-  video.play().catch(() => {});
+  video.play().catch(() => { });
 }
 
 function closeVideoModal() {
@@ -265,8 +232,8 @@ function initTypedPrefix() {
   const el = document.getElementById("typed-prefix");
   if (!el) return;
 
-  const texts   = ["< ", "{ ", "// "];
-  const suffixes= [" />", " }", ""];
+  const texts = ["< ", "{ ", "// "];
+  const suffixes = [" />", " }", ""];
   let tIdx = 0, cIdx = 0, deleting = false;
 
   const suffixEl = document.getElementById("typed-suffix");
@@ -325,16 +292,16 @@ function initScrollProgress() {
   const bar = document.createElement("div");
   bar.id = "scroll-progress";
   Object.assign(bar.style, {
-    position:        "fixed",
-    top:             "0",
-    left:            "0",
-    height:          "2px",
-    width:           "0%",
-    background:      "linear-gradient(90deg, #B8860B, #FFD700, #FFE55C)",
-    zIndex:          "9999",
-    transition:      "width 0.1s linear",
-    pointerEvents:   "none",
-    boxShadow:       "0 0 8px rgba(255,215,0,0.6)",
+    position: "fixed",
+    top: "0",
+    left: "0",
+    height: "2px",
+    width: "0%",
+    background: "linear-gradient(90deg, #B8860B, #FFD700, #FFE55C)",
+    zIndex: "9999",
+    transition: "width 0.1s linear",
+    pointerEvents: "none",
+    boxShadow: "0 0 8px rgba(255,215,0,0.6)",
   });
   document.body.appendChild(bar);
 
@@ -382,11 +349,11 @@ function initScrollToTop() {
 // =============================================
 document.addEventListener("DOMContentLoaded", function () {
   // Video modal
-  const closeBtn    = document.getElementById("closeBtn");
+  const closeBtn = document.getElementById("closeBtn");
   const minimizeBtn = document.getElementById("minimizeBtn");
-  const modal       = document.getElementById("videoModal");
+  const modal = document.getElementById("videoModal");
 
-  if (closeBtn)    closeBtn.addEventListener("click",    closeVideoModal);
+  if (closeBtn) closeBtn.addEventListener("click", closeVideoModal);
   if (minimizeBtn) minimizeBtn.addEventListener("click", minimizeVideo);
 
   document.querySelectorAll(".video-preview-btn").forEach((btn) => {
