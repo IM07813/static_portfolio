@@ -1451,6 +1451,17 @@ body.menu-open {
     background: #000;
 }
 
+.tool-icon--text {
+    font-size: 1.4rem;
+    color: var(--gold-dim);
+    transition: color 0.18s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.tool-item:hover .tool-icon--text {
+    color: var(--gold);
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));
+}
+
 /* =========================================================
    RESPONSIVE
    ========================================================= */
@@ -1556,5 +1567,213 @@ body.menu-open {
 
     .hero-content h1 {
         font-size: clamp(2.4rem, 12vw, 3.5rem);
+    }
+}
+
+/* =========================================================
+   EXPERIENCE
+   ========================================================= */
+.experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+.exp-item {
+    display: flex;
+    gap: 24px;
+    padding: 28px 26px;
+    background: rgba(255, 215, 0, 0.03);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-top-color: rgba(255, 215, 0, 0.28);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.38s var(--ease-out);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 215, 0, 0.07);
+}
+
+.exp-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-deep));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.38s var(--ease-out);
+}
+
+.exp-item:hover::before {
+    transform: scaleX(1);
+}
+
+.exp-item:hover {
+    border-color: rgba(255, 215, 0, 0.4);
+    border-top-color: rgba(255, 215, 0, 0.55);
+    background: rgba(255, 215, 0, 0.055);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 48px rgba(0, 0, 0, 0.7),
+        0 0 26px rgba(255, 215, 0, 0.10),
+        inset 0 1px 0 rgba(255, 215, 0, 0.14);
+}
+
+/* Logo / icon column */
+.exp-logo {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.14), rgba(184, 134, 11, 0.10));
+    border: 1px solid rgba(255, 215, 0, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--gold);
+    margin-top: 2px;
+}
+
+.exp-logo-initials {
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+}
+
+.exp-logo--img img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    filter: brightness(0.85) sepia(1) saturate(2) hue-rotate(8deg);
+}
+
+/* Body */
+.exp-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.exp-role {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-white);
+    margin-bottom: 4px;
+    line-height: 1.35;
+}
+
+.exp-company {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--gold-warm);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.exp-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.exp-date,
+.exp-location {
+    font-size: 0.74rem;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.exp-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 50px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.exp-badge--active {
+    background: rgba(255, 215, 0, 0.12);
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    color: var(--gold);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.12);
+}
+
+.exp-desc {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.85;
+}
+
+.exp-desc em {
+    color: var(--gold-warm);
+    font-style: normal;
+    font-weight: 600;
+}
+
+.exp-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0;
+}
+
+.exp-list li {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.75;
+    padding-left: 18px;
+    position: relative;
+}
+
+.exp-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold-dim);
+}
+
+@media (max-width: 768px) {
+    .exp-item {
+        flex-direction: column;
+        gap: 16px;
+        padding: 22px 18px;
+    }
+
+    .exp-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .exp-meta {
+        align-items: flex-start;
+    }
+
+    .exp-date,
+    .exp-location {
+        white-space: normal;
     }
 }
